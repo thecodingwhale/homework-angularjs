@@ -1,0 +1,6 @@
+span#setStatus { color: #D0D0D0; }
+span#setStatus:hover {
+    cursor: pointer;
+    color: #B2B2B2;
+}
+span#setStatus.completed { color: #5cb85c; }

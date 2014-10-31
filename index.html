@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Todo List | A todo web app for your daily list!</title>
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
 </head>
 <body>
     <div ng-controller="TodoCtrl">
@@ -21,8 +22,8 @@
                     <button type="submit" class="btn btn-default btn-sm" ng-click="saveTodo(todo)">
                         <span class="glyphicon glyphicon-plus"></span> Todo
                     </button>
-                    <button type="submit" class="btn btn-default btn-sm" ng-click="saveTodo(todo)">
-                        <span class="glyphicon glyphicon-plus"></span> Todo
+                    <button type="submit" class="btn btn-default btn-sm" ng-click="reset()">
+                        <span class="glyphicon glyphicon-repeat"></span> Clear
                     </button>
                 </form>                        
             </div>
@@ -40,7 +41,14 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="todo in todos">
-                            <td>{{ $index + 1 }}</td>
+                            <td>
+                                <span
+                                    id="setStatus"
+                                    ng-class="{ completed : completed === $index }"
+                                    ng-click="setStatus( $index, todo )"
+                                    class="glyphicon glyphicon-ok {{ todo.done == true && 'completed' || '' }}">
+                                </span>
+                            </td>
                             <td>{{ todo.text }}</td>
                             <td>
                                 <span class="label {{ todo.done == true && 'label-success' || 'label-primary' }}">
