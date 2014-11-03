@@ -3,23 +3,26 @@ var App = angular.module('App', ['firebase']);
     App.controller('TodoCtrl', function($scope, $http, $firebase) {
 
         // initialize firebase api
-        var ref = new Firebase("https://brilliant-torch-3226.firebaseio.com");        
+        var ref = new Firebase("https://brilliant-torch-3226.firebaseio.com/todos");        
 
         // create an AngularFire reference to the data
         var sync = $firebase(ref);
-        
-        // download the data into a local object
-        $scope.todos = sync.$asObject();
 
         // create a object for new todo
         $scope.todo = {};
+
+        // get all todos
+        $scope.todos = sync.$asObject();        
 
         // save the object data from $scope.todo
         $scope.saveTodo = function ( todo ) {
 
             // prepare data
-            var data = { "done" : false, "text" : todo.new };            
-                sync.set(data);
+            var data = { "done" : false, "text" : todo.new };
+
+            // add data
+            var newTodo = ref.push();
+                newTodo.set(data);
 
             // clear data after saving
             $scope.reset();
@@ -31,9 +34,27 @@ var App = angular.module('App', ['firebase']);
         };               
 
         $scope.completed;
-        $scope.setStatus = function ( index, todo ) {
+
+
+        $scope.updateStatus = function ( unique, index, todo ) {
             $scope.completed = index;
-            if ( todo.done == true ) { todo.done = false; } else { todo.done = true; }
+            todo.done = ( todo.done == true ) ? false : true;
+            ref.child( unique ).child( "done" ).set( todo.done );
+        }
+
+        $scope.getTodo = function ( unique, index, todo ) {            
+            $scope.setTodo = todo.text;
+        }
+
+        $scope.setTodo = function ( unique, todo ) {            
+            var onComplete = function( error ) {
+                if ( error ) {
+                    console.log('Synchronization failed');
+                } else {
+                    console.log('Synchronization succeeded');
+                }
+            };
+            ref.child( unique ).child( "text" ).set( todo, onComplete );
         }
 
     });

@@ -1,6 +1,12 @@
-span#setStatus { color: #D0D0D0; }
-span#setStatus:hover {
+span#updateStatus { color: #D0D0D0; }
+span#updateStatus:hover {
     cursor: pointer;
     color: #B2B2B2;
 }
-span#setStatus.completed { color: #5cb85c; }
+span#updateStatus.completed { color: #5cb85c; }
+input.edit {
+    background-color:rgba(0, 0, 0, 0);        
+    outline:none;    
+    transition:height 1s;
+    -webkit-transition:height 1s;
+}
